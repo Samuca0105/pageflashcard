@@ -1,7 +1,7 @@
 const flashcards = [
     { 
         question: " 01) O que é o Sistema Financeiro Nacional (SFN)",
-        answer: " É o conjunto de instruções financeiras e órgãos normativos que regulam, fiscalizam e executam operações financeiras no Brasil.
+        answer: " É o conjunto de instruções financeiras e órgãos normativos que regulam, fiscalizam e executam operações financeiras no Brasil."
     },
     {
         question: " 02) Quais são os três principais componentes do SFN ? ",
