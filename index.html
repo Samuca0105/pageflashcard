@@ -245,8 +245,6 @@
             
             <button class="btn" onclick="adicionarAnotacao()">Adicionar Anotação</button>
             <button class="btn" onclick="fazerBackup()" style="margin-left: 10px; background-color: #28a745;">Fazer Backup</button>
-            <button class="btn" onclick="exportarParaGitHub()" style="margin-left: 10px; background-color: #17a2b8;">Exportar para GitHub</button>
-            <button class="btn" onclick="importarDoGitHub()" style="margin-left: 10px; background-color: #ffc107; color: #333;">Importar do GitHub</button>
         </div>
 
         <div class="search-box">
@@ -409,24 +407,6 @@
                 console.log('Backup criado com sucesso');
             } else {
                 alert('Erro ao criar backup');
-            }
-        }
-        
-        // Função para exportar dados para GitHub
-        function exportarParaGitHub() {
-            if (SimpleDB.exportToGitHub()) {
-                console.log('Dados exportados com sucesso');
-            } else {
-                alert('Erro ao exportar dados');
-            }
-        }
-        
-        // Função para importar dados do GitHub
-        function importarDoGitHub() {
-            if (SimpleDB.importFromGitHub()) {
-                carregarAnotacoes();
-            } else {
-                alert('Erro ao importar dados');
             }
         }
 

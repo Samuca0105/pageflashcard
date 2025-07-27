@@ -110,11 +110,11 @@ var SimpleDB = {
         return data.length;
     },
     
-    // Fazer backup do banco
+    // Fazer backup do banco para upload no GitHub
     backup: function() {
         var data = this.loadData();
         var timestamp = new Date().toISOString().replace(/[:.]/g, '-');
-        var backupFile = 'backup_anotacoes_' + timestamp + '.json';
+        var backupFile = 'anotacoes_db_' + timestamp + '.json';
         
         try {
             var jsonContent = JSON.stringify(data, null, 2);
@@ -131,7 +131,7 @@ var SimpleDB = {
             
             URL.revokeObjectURL(link.href);
             
-            alert('Backup criado: ' + backupFile);
+            alert('Arquivo de anotações baixado: ' + backupFile + '\n\nPara sincronizar:\n1. Faça upload deste arquivo no GitHub\n2. Renomeie para anotacoes_db.json\n3. Em outros dispositivos, recarregue a página');
             return true;
         } catch (e) {
             console.log('Erro ao criar backup:', e);
@@ -154,52 +154,5 @@ var SimpleDB = {
         }
     },
     
-    // Exportar dados para GitHub (download manual)
-    exportToGitHub: function() {
-        try {
-            var data = this.loadData();
-            var jsonContent = JSON.stringify(data, null, 2);
-            
-            var blob = new Blob([jsonContent], {type: 'application/json'});
-            var link = document.createElement('a');
-            link.href = URL.createObjectURL(blob);
-            link.download = this.dbFile;
-            link.style.display = 'none';
-            
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-            
-            URL.revokeObjectURL(link.href);
-            
-            alert('Arquivo ' + this.dbFile + ' baixado!\n\nPara sincronizar:\n1. Substitua o arquivo no seu repositório\n2. Faça commit e push no GitHub');
-            return true;
-        } catch (e) {
-            console.log('Erro ao exportar:', e);
-            return false;
-        }
-    },
-    
-    // Importar dados do GitHub
-    importFromGitHub: function() {
-        try {
-            var xhr = new XMLHttpRequest();
-            xhr.open('GET', this.dbFile, false);
-            xhr.send();
-            
-            if (xhr.status == 200) {
-                var data = JSON.parse(xhr.responseText);
-                this.saveData(data);
-                alert('Dados importados com sucesso do GitHub!');
-                return true;
-            } else {
-                alert('Arquivo ' + this.dbFile + ' não encontrado no servidor.');
-                return false;
-            }
-        } catch (e) {
-            console.log('Erro ao importar:', e);
-            alert('Erro ao importar dados do GitHub.');
-            return false;
-        }
-    }
+
 }; 

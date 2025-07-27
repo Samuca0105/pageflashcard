@@ -16,33 +16,22 @@ Aplicação web para organizar anotações de estudos para concursos, com sincro
 
 ### Sincronizando Entre Dispositivos
 
-#### Para enviar suas anotações para o GitHub:
-1. Clique em "Exportar para GitHub"
-2. O arquivo `anotacoes_db.json` será baixado
-3. Substitua o arquivo no seu repositório
-4. Faça commit e push no GitHub:
-   ```bash
-   git add anotacoes_db.json
-   git commit -m "Atualizar anotações"
-   git push origin main
-   ```
+#### Dispositivo Principal (para editar):
+1. Adicione suas anotações normalmente
+2. Ao final do estudo, clique em "Fazer Backup"
+3. O arquivo será baixado com timestamp
+4. Faça upload do arquivo no GitHub
+5. Renomeie para `anotacoes_db.json`
 
-#### Para receber anotações do GitHub:
-1. Clique em "Importar do GitHub"
-2. As anotações serão carregadas automaticamente
+#### Dispositivo Secundário (apenas para visualizar):
+1. Acesse a mesma página no GitHub
+2. As anotações carregam automaticamente do arquivo `anotacoes_db.json`
+3. Use apenas para revisão (não edite neste dispositivo)
 
 ### Backup e Segurança
-- Use o botão "Fazer Backup" para criar cópias de segurança
-- Os backups incluem timestamp para identificação
-- Mantenha backups em local seguro
-
-#### Para atualizar em outros dispositivos:
-1. Faça pull do repositório:
-   ```bash
-   git pull origin main
-   ```
-2. Recarregue a página no navegador
-3. As novas anotações aparecerão automaticamente
+- Use o botão "Fazer Backup" ao final de cada sessão de estudo
+- Os arquivos incluem timestamp para controle de versão
+- Mantenha o arquivo `anotacoes_db.json` sempre atualizado no GitHub
 
 ## 📁 Estrutura dos Arquivos
 
@@ -59,7 +48,7 @@ Aplicação web para organizar anotações de estudos para concursos, com sincro
 - ✅ Agrupamento automático por matéria
 - ✅ Interface colapsável
 - ✅ Salvamento local (sem download automático)
-- ✅ Sincronização manual com GitHub
+- ✅ Backup manual para GitHub
 - ✅ Compatível com Safari antigo (iPad Mini 1)
 
 ## 🔧 Compatibilidade
@@ -79,7 +68,7 @@ Cada anotação contém:
 ## 🚨 Importante
 
 - As anotações são salvas localmente no navegador
-- Use "Exportar para GitHub" quando quiser sincronizar
-- Use "Importar do GitHub" para receber atualizações
-- Use o botão "Fazer Backup" regularmente para criar cópias de segurança
+- Use "Fazer Backup" ao final de cada sessão de estudo
+- O segundo dispositivo serve apenas para visualização/revisão
+- Mantenha o arquivo `anotacoes_db.json` atualizado no GitHub
 - O sistema funciona offline e é compatível com Safari antigo (iPad Mini 1) 
