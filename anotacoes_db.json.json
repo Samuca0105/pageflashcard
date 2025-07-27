@@ -1,0 +1,51 @@
+[
+  {
+    "id": 1703123456789,
+    "materia": "Arquivologia",
+    "assunto": "Técnicas de arquivamento",
+    "texto": "01 - A Ata deve ser escrita em um único parágrafo, assinada ao final pelas pessoas que a presidiram e pelo seu redator.",
+    "data": "21/12/2023"
+  },
+  {
+    "id": 1753643603413,
+    "materia": "Cidadania",
+    "assunto": "Assedio moral e sexual",
+    "texto": "01 -  # Análise: Assédio moral interpessoal ascendente ocorre quando um subordinado assedia um superior hierárquico. Na situação descrita, Elvira, que é subordinada, adota comportamentos hostis contra sua superior, Luana. Portanto, está de acordo com o gabarito da banca.",
+    "data": "27/07/2025"
+  },
+  {
+    "id": 1753643648851,
+    "materia": "Cidadania",
+    "assunto": "Assédio moral e sexual",
+    "texto": "02 - A falta de provas nos casos de assédios morais e sexuais muitas vezes dificulta a responsabilização do agente no sistema judiciário, e, nesses casos, o trabalho do psicólogo pode ser essencial para auxiliar no processo.",
+    "data": "27/07/2025"
+  },
+  {
+    "id": 1753643684396,
+    "materia": "Cidadania",
+    "assunto": "Assédio Moral e sexual",
+    "texto": "03 - O assédio moral e sexual e a discriminação decorrem de um exercício de poder resultante da crença de que uma pessoa ou um grupo social deve ter privilégios sobre os demais.",
+    "data": "27/07/2025"
+  },
+  {
+    "id": 1753643797014,
+    "materia": "Cidadania",
+    "assunto": "Assédio Moral e sexual",
+    "texto": "04 - Os danos à saúde decorrentes do assédio moral no trabalho podem ser minimizados ou mesmo prevenidos com propostas de mudanças comportamentais no estilo de liderança ou com projetos que considerem a realização de ações humanizadas nas relações de trabalho.",
+    "data": "27/07/2025"
+  },
+  {
+    "id": 1753643833998,
+    "materia": "Cidadania",
+    "assunto": "Assédio Moral sexual",
+    "texto": "05 - Assédio moral é uma modalidade de violência e sofrimento psicológico por meio do qual há a provocação de um dano profundo ao outro, com chances de efeitos não apenas na esfera física, como na psíquica, além de impactos no funcionamento global do indivíduo.",
+    "data": "27/07/2025"
+  },
+  {
+    "id": 1753643907709,
+    "materia": "Cidadania",
+    "assunto": "Assédio Moral e sexual",
+    "texto": "06 - Fundamentação: Stalking é definido como uma perseguição persistente e indesejada a uma pessoa, que pode causar medo ou preocupação. Embora possa ter conotações sexuais, não é exclusivamente um tipo de assédio sexual.\nDe acordo com a legislação e a literatura sobre o tema, 'stalking' é uma forma de perseguição que pode envolver assédio moral e psicológico. Pode incluir, mas não se limita a, conotações sexuais. Portanto, não é correto afirmar que 'stalking' caracteriza exclusivamente assédio sexual.",
+    "data": "27/07/2025"
+  }
+]
