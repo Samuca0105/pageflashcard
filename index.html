@@ -110,23 +110,44 @@
             overflow-y: auto;
         }
 
+        .materia-group {
+            margin-bottom: 25px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            overflow: hidden;
+        }
+
+        .materia-header {
+            background-color: #4a90e2;
+            color: white;
+            padding: 12px 15px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .materia-header:hover {
+            background-color: #357abd;
+        }
+
+        .materia-content {
+            background-color: white;
+        }
+
+        .materia-content.collapsed {
+            display: none;
+        }
+
         .note {
             background-color: #f8f8f8;
             border-left: 4px solid #4a90e2;
-            margin-bottom: 15px;
+            margin: 10px;
             padding: 15px;
             border-radius: 4px;
         }
 
         .note-header {
             margin-bottom: 10px;
-        }
-
-        .note-materia {
-            font-size: 18px;
-            font-weight: bold;
-            color: #4a90e2;
-            margin-bottom: 5px;
         }
 
         .note-assunto {
@@ -187,9 +208,7 @@
                 font-size: 20px;
             }
             
-            .note-materia {
-                font-size: 16px;
-            }
+            
             
             .note-assunto {
                 font-size: 14px;
@@ -282,7 +301,7 @@
             document.getElementById('texto').value = '';
         }
 
-        // Função para exibir todas as anotações
+        // Função para exibir todas as anotações agrupadas por matéria
         function exibirAnotacoes(filtradas) {
             var container = document.getElementById('notesContainer');
             var anotacoesParaExibir = filtradas || anotacoes;
@@ -292,23 +311,60 @@
                 return;
             }
 
-            var html = '';
+            // Agrupar anotações por matéria
+            var materias = {};
             for (var i = 0; i < anotacoesParaExibir.length; i++) {
                 var anotacao = anotacoesParaExibir[i];
-                html += '<div class="note">';
-                html += '<div class="note-header">';
-                html += '<div class="note-meta">';
-                html += '<div class="note-materia">' + anotacao.materia + '</div>';
-                html += '<div class="note-assunto">' + anotacao.assunto + '</div>';
-                html += '<div class="note-date">' + anotacao.data + '</div>';
-                html += '</div>';
-                html += '<button class="delete-btn" onclick="deletarAnotacao(' + anotacao.id + ')">X</button>';
-                html += '<div class="clear"></div>';
-                html += '</div>';
-                html += '<div class="note-text">' + anotacao.texto + '</div>';
-                html += '</div>';
+                if (!materias[anotacao.materia]) {
+                    materias[anotacao.materia] = [];
+                }
+                materias[anotacao.materia].push(anotacao);
+            }
+
+            var html = '';
+            var materiaIndex = 0;
+            for (var materia in materias) {
+                if (materias.hasOwnProperty(materia)) {
+                    var anotacoesMateria = materias[materia];
+                    var materiaId = 'materia-' + materiaIndex;
+                    
+                    html += '<div class="materia-group">';
+                    html += '<div class="materia-header" onclick="toggleMateria(\'' + materiaId + '\')">';
+                    html += materia + ' (' + anotacoesMateria.length + ' anotações)';
+                    html += '</div>';
+                    html += '<div class="materia-content" id="' + materiaId + '">';
+                    
+                    for (var j = 0; j < anotacoesMateria.length; j++) {
+                        var anotacao = anotacoesMateria[j];
+                        html += '<div class="note">';
+                        html += '<div class="note-header">';
+                        html += '<div class="note-meta">';
+                        html += '<div class="note-assunto">' + anotacao.assunto + '</div>';
+                        html += '<div class="note-date">' + anotacao.data + '</div>';
+                        html += '</div>';
+                        html += '<button class="delete-btn" onclick="deletarAnotacao(' + anotacao.id + ')">X</button>';
+                        html += '<div class="clear"></div>';
+                        html += '</div>';
+                        html += '<div class="note-text">' + anotacao.texto + '</div>';
+                        html += '</div>';
+                    }
+                    
+                    html += '</div>';
+                    html += '</div>';
+                    materiaIndex++;
+                }
             }
             container.innerHTML = html;
+        }
+
+        // Função para expandir/colapsar grupos de matéria
+        function toggleMateria(materiaId) {
+            var content = document.getElementById(materiaId);
+            if (content.className.indexOf('collapsed') != -1) {
+                content.className = content.className.replace(' collapsed', '');
+            } else {
+                content.className += ' collapsed';
+            }
         }
 
         // Função para deletar uma anotação
