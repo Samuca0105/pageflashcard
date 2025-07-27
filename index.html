@@ -405,48 +405,77 @@
             stats.innerHTML = 'Total de anotações: ' + anotacoes.length;
         }
 
-        // Função para salvar anotações no localStorage
+        // Função para salvar anotações no arquivo JSON
         function salvarAnotacoes() {
             try {
+                // Salvar no localStorage como backup
                 localStorage.setItem('anotacoesConcursos', JSON.stringify(anotacoes));
+                
+                // Criar e baixar arquivo JSON para sincronização
+                var dataStr = JSON.stringify(anotacoes, null, 2);
+                var dataBlob = new Blob([dataStr], {type: 'application/json'});
+                
+                // Criar link de download
+                var link = document.createElement('a');
+                link.href = URL.createObjectURL(dataBlob);
+                link.download = 'anotacoes.json';
+                link.style.display = 'none';
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                
+                // Mostrar instruções para o usuário
+                alert('Arquivo anotacoes.json foi baixado!\n\nPara sincronizar:\n1. Substitua o arquivo anotacoes.json no seu repositório\n2. Faça commit e push no GitHub\n3. Em outros dispositivos, faça pull para atualizar');
+                
             } catch (e) {
-                // Fallback para navegadores que não suportam localStorage
-                console.log('localStorage não suportado');
+                console.log('Erro ao salvar anotações');
+                alert('Erro ao salvar. Tente novamente.');
             }
         }
 
-        // Função para carregar anotações do localStorage
+        // Função para carregar anotações do arquivo JSON
         function carregarAnotacoes() {
             try {
+                // Primeiro tenta carregar do localStorage como backup
                 var salvas = localStorage.getItem('anotacoesConcursos');
                 if (salvas) {
                     anotacoes = JSON.parse(salvas);
                 }
+                
+                // Depois tenta carregar do arquivo JSON se existir
+                var xhr = new XMLHttpRequest();
+                xhr.open('GET', 'anotacoes.json', true);
+                xhr.onreadystatechange = function() {
+                    if (xhr.readyState == 4) {
+                        if (xhr.status == 200) {
+                            try {
+                                var dadosArquivo = JSON.parse(xhr.responseText);
+                                if (dadosArquivo && dadosArquivo.length > 0) {
+                                    anotacoes = dadosArquivo;
+                                    // Atualizar localStorage com dados do arquivo
+                                    localStorage.setItem('anotacoesConcursos', JSON.stringify(anotacoes));
+                                    exibirAnotacoes();
+                                    atualizarEstatisticas();
+                                }
+                            } catch (e) {
+                                console.log('Erro ao parsear arquivo JSON');
+                            }
+                        } else {
+                            console.log('Arquivo anotacoes.json não encontrado, usando localStorage');
+                        }
+                    }
+                };
+                xhr.send();
+                
             } catch (e) {
                 console.log('Erro ao carregar anotações');
                 anotacoes = [];
             }
         }
 
-        // Função para adicionar a primeira anotação (Arquivologia)
-        function adicionarPrimeiraAnotacao() {
-            if (anotacoes.length == 0) {
-                var primeiraAnotacao = {
-                    id: new Date().getTime(),
-                    materia: "Arquivologia",
-                    assunto: "Técnicas de arquivamento",
-                    texto: "01 - A Ata deve ser escrita em um único parágrafo, assinada ao final pelas pessoas que a presidiram e pelo seu redator.",
-                    data: new Date().toLocaleDateString('pt-BR')
-                };
-                anotacoes.push(primeiraAnotacao);
-                salvarAnotacoes();
-            }
-        }
-
         // Inicialização da aplicação
         window.onload = function() {
             carregarAnotacoes();
-            adicionarPrimeiraAnotacao();
             exibirAnotacoes();
             atualizarEstatisticas();
         };
