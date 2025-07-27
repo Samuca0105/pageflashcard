@@ -1,600 +1,415 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quiz LGPD - Lei Geral de Proteção de Dados</title>
-    <style type="text/css">
-        body {
-            font-family: Arial, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    <title>Anotações para Concursos</title>
+    <style>
+        * {
             margin: 0;
-            padding: 20px;
-            min-height: 100vh;
+            padding: 0;
+            box-sizing: border-box;
         }
-        
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: #333;
+        }
+
         .container {
             max-width: 800px;
             margin: 0 auto;
             background: white;
             border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
             overflow: hidden;
         }
-        
+
         .header {
-            background: linear-gradient(45deg, #2c3e50, #3498db);
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
             color: white;
-            text-align: center;
             padding: 30px;
+            text-align: center;
         }
-        
+
         .header h1 {
-            margin: 0;
             font-size: 2.5em;
+            margin-bottom: 10px;
             text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
         }
-        
+
         .header p {
-            margin: 10px 0 0 0;
             font-size: 1.2em;
             opacity: 0.9;
         }
-        
-        .quiz-container {
-            padding: 30px;
-        }
-        
-        .question {
-            display: none;
-            margin-bottom: 30px;
-        }
-        
-        .question.active {
-            display: block;
-        }
-        
-        .question h2 {
-            color: #2c3e50;
-            border-bottom: 3px solid #3498db;
-            padding-bottom: 10px;
-            margin-bottom: 20px;
-        }
-        
-        .options {
-            list-style: none;
-            padding: 0;
-        }
-        
-        .options li {
-            margin: 10px 0;
-        }
-        
-        .options label {
-            display: block;
-            padding: 15px;
+
+        .controls {
+            padding: 20px;
             background: #f8f9fa;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #495057;
+        }
+
+        .form-group input, .form-group textarea {
+            width: 100%;
+            padding: 12px;
             border: 2px solid #e9ecef;
             border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.3s ease;
             font-size: 16px;
+            transition: border-color 0.3s ease;
         }
-        
-        .options label:hover {
-            background: #e3f2fd;
-            border-color: #2196f3;
-            transform: translateX(5px);
+
+        .form-group input:focus, .form-group textarea:focus {
+            outline: none;
+            border-color: #4facfe;
+            box-shadow: 0 0 0 3px rgba(79, 172, 254, 0.1);
         }
-        
-        .options input[type="radio"] {
-            margin-right: 10px;
-            transform: scale(1.2);
-        }
-        
-        .navigation {
-            text-align: center;
-            margin-top: 30px;
-            padding-top: 20px;
-            border-top: 2px solid #e9ecef;
-        }
-        
+
         .btn {
-            background: linear-gradient(45deg, #3498db, #2980b9);
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
             color: white;
             border: none;
             padding: 12px 25px;
-            margin: 0 10px;
-            border-radius: 25px;
-            cursor: pointer;
+            border-radius: 8px;
             font-size: 16px;
             font-weight: bold;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(52, 152, 219, 0.3);
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
         }
-        
+
         .btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(52, 152, 219, 0.4);
+            box-shadow: 0 5px 15px rgba(79, 172, 254, 0.4);
         }
-        
-        .btn:disabled {
-            background: #bdc3c7;
-            cursor: not-allowed;
-            transform: none;
-            box-shadow: none;
+
+        .btn:active {
+            transform: translateY(0);
         }
-        
-        .results {
-            display: none;
+
+        .notes-container {
+            padding: 20px;
+            max-height: 60vh;
+            overflow-y: auto;
+        }
+
+        .note {
+            background: #f8f9fa;
+            border-left: 4px solid #4facfe;
+            margin-bottom: 20px;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            transition: transform 0.2s ease;
+        }
+
+        .note:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+        }
+
+        .note-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .note-meta {
+            flex: 1;
+        }
+
+        .note-materia {
+            font-size: 1.1em;
+            font-weight: bold;
+            color: #4facfe;
+            margin-bottom: 5px;
+        }
+
+        .note-assunto {
+            font-size: 1em;
+            color: #6c757d;
+            font-weight: 500;
+        }
+
+        .note-date {
+            font-size: 0.9em;
+            color: #adb5bd;
+        }
+
+        .note-text {
+            line-height: 1.6;
+            color: #495057;
+            font-size: 1em;
+        }
+
+        .delete-btn {
+            background: #dc3545;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: background 0.2s ease;
+        }
+
+        .delete-btn:hover {
+            background: #c82333;
+        }
+
+        .empty-state {
             text-align: center;
-            padding: 30px;
+            padding: 40px 20px;
+            color: #6c757d;
         }
-        
-        .score {
-            font-size: 2em;
-            color: #2c3e50;
+
+        .empty-state i {
+            font-size: 3em;
+            margin-bottom: 20px;
+            opacity: 0.5;
+        }
+
+        .search-box {
             margin-bottom: 20px;
         }
-        
-        .score-value {
-            font-size: 3em;
-            color: #3498db;
-            font-weight: bold;
+
+        .search-box input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            font-size: 16px;
         }
-        
-        .feedback {
-            margin: 20px 0;
+
+        .stats {
+            background: #e9ecef;
             padding: 15px;
             border-radius: 8px;
-            font-weight: bold;
-        }
-        
-        .excellent {
-            background: #d4edda;
-            color: #155724;
-            border: 1px solid #c3e6cb;
-        }
-        
-        .good {
-            background: #d1ecf1;
-            color: #0c5460;
-            border: 1px solid #bee5eb;
-        }
-        
-        .average {
-            background: #fff3cd;
-            color: #856404;
-            border: 1px solid #ffeaa7;
-        }
-        
-        .poor {
-            background: #f8d7da;
-            color: #721c24;
-            border: 1px solid #f5c6cb;
-        }
-        
-        .progress-bar {
-            width: 100%;
-            height: 10px;
-            background: #e9ecef;
-            border-radius: 5px;
-            margin: 20px 0;
-            overflow: hidden;
-        }
-        
-        .progress-fill {
-            height: 100%;
-            background: linear-gradient(45deg, #3498db, #2980b9);
-            width: 0%;
-            transition: width 0.5s ease;
-        }
-        
-        .question-counter {
-            text-align: center;
-            color: #6c757d;
-            font-size: 14px;
             margin-bottom: 20px;
-        }
-        
-        .options label.selected {
-            background: #d4edda;
-            border-color: #28a745;
-            color: #155724;
-        }
-        
-        .options label.correct {
-            background: #d4edda;
-            border-color: #28a745;
-            color: #155724;
-        }
-        
-        .options label.incorrect {
-            background: #f8d7da;
-            border-color: #dc3545;
-            color: #721c24;
-        }
-        
-        .feedback-message {
             text-align: center;
-            padding: 10px;
-            margin: 10px 0;
-            border-radius: 5px;
             font-weight: bold;
-            display: none;
+            color: #495057;
         }
-        
-        .feedback-correct {
-            background: #d4edda;
-            color: #155724;
-            border: 1px solid #c3e6cb;
+
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+            
+            .header h1 {
+                font-size: 2em;
+            }
+            
+            .note-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .delete-btn {
+                margin-top: 10px;
+            }
         }
-        
-        .feedback-incorrect {
-            background: #f8d7da;
-            color: #721c24;
-            border: 1px solid #f5c6cb;
+
+        /* Estilos específicos para iPad Mini */
+        @media (min-width: 768px) and (max-width: 1024px) {
+            .container {
+                max-width: 90%;
+            }
+            
+            .notes-container {
+                max-height: 50vh;
+            }
         }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="header">
-            <h1>📋 Quiz LGPD</h1>
-            <p>Teste seus conhecimentos sobre a Lei Geral de Proteção de Dados</p>
+            <h1>📚 Anotações para Concursos</h1>
+            <p>Organize seus estudos de forma eficiente</p>
         </div>
-        
-        <div class="quiz-container">
-            <div class="question-counter">
-                <span id="current-question">1</span> de <span id="total-questions">10</span>
+
+        <div class="controls">
+            <div class="form-group">
+                <label for="materia">Matéria:</label>
+                <input type="text" id="materia" placeholder="Ex: Arquivologia, Direito Constitucional...">
             </div>
             
-            <div class="progress-bar">
-                <div class="progress-fill" id="progress-fill"></div>
+            <div class="form-group">
+                <label for="assunto">Assunto:</label>
+                <input type="text" id="assunto" placeholder="Ex: Técnicas de arquivamento, Princípios constitucionais...">
             </div>
             
-            <!-- Pergunta 1 -->
-            <div class="question active" id="question-1">
-                <h2>1. O que significa a sigla LGPD?</h2>
-                <div class="feedback-message" id="feedback-1"></div>
-                <ul class="options">
-                    <li><label><input type="radio" name="q1" value="a"> a) Lei Geral de Proteção Digital</label></li>
-                    <li><label><input type="radio" name="q1" value="b"> b) Lei Geral de Proteção de Dados</label></li>
-                    <li><label><input type="radio" name="q1" value="c"> c) Lei Geral de Privacidade Digital</label></li>
-                    <li><label><input type="radio" name="q1" value="d"> d) Lei Geral de Processamento de Dados</label></li>
-                    <li><label><input type="radio" name="q1" value="e"> e) Lei Geral de Proteção de Direitos</label></li>
-                </ul>
+            <div class="form-group">
+                <label for="texto">Anotação:</label>
+                <textarea id="texto" rows="4" placeholder="Digite sua anotação aqui..."></textarea>
             </div>
             
-            <!-- Pergunta 2 -->
-            <div class="question" id="question-2">
-                <h2>2. Qual é o número da lei que instituiu a LGPD no Brasil?</h2>
-                <div class="feedback-message" id="feedback-2"></div>
-                <ul class="options">
-                    <li><label><input type="radio" name="q2" value="a"> a) Lei nº 13.709/2018</label></li>
-                    <li><label><input type="radio" name="q2" value="b"> b) Lei nº 12.965/2014</label></li>
-                    <li><label><input type="radio" name="q2" value="c"> c) Lei nº 14.058/2020</label></li>
-                    <li><label><input type="radio" name="q2" value="d"> d) Lei nº 13.853/2019</label></li>
-                    <li><label><input type="radio" name="q2" value="e"> e) Lei nº 12.737/2012</label></li>
-                </ul>
-            </div>
-            
-            <!-- Pergunta 3 -->
-            <div class="question" id="question-3">
-                <h2>3. Qual é o órgão responsável por fiscalizar o cumprimento da LGPD no Brasil?</h2>
-                <div class="feedback-message" id="feedback-3"></div>
-                <ul class="options">
-                    <li><label><input type="radio" name="q3" value="a"> a) Ministério da Justiça</label></li>
-                    <li><label><input type="radio" name="q3" value="b"> b) Procon</label></li>
-                    <li><label><input type="radio" name="q3" value="c"> c) ANPD (Autoridade Nacional de Proteção de Dados)</label></li>
-                    <li><label><input type="radio" name="q3" value="d"> d) Polícia Federal</label></li>
-                    <li><label><input type="radio" name="q3" value="e"> e) Ministério Público</label></li>
-                </ul>
-            </div>
-            
-            <!-- Pergunta 4 -->
-            <div class="question" id="question-4">
-                <h2>4. Qual das seguintes situações NÃO é considerada uma base legal para o tratamento de dados pessoais pela LGPD?</h2>
-                <div class="feedback-message" id="feedback-4"></div>
-                <ul class="options">
-                    <li><label><input type="radio" name="q4" value="a"> a) Consentimento do titular</label></li>
-                    <li><label><input type="radio" name="q4" value="b"> b) Cumprimento de obrigação legal</label></li>
-                    <li><label><input type="radio" name="q4" value="c"> c) Execução de contrato</label></li>
-                    <li><label><input type="radio" name="q4" value="d"> d) Interesse legítimo</label></li>
-                    <li><label><input type="radio" name="q4" value="e"> e) Processamento indiscriminado sem finalidade específica</label></li>
-                </ul>
-            </div>
-            
-            <!-- Pergunta 5 -->
-            <div class="question" id="question-5">
-                <h2>5. Qual é o prazo máximo que uma empresa pode reter dados pessoais após atingir a finalidade do tratamento?</h2>
-                <div class="feedback-message" id="feedback-5"></div>
-                <ul class="options">
-                    <li><label><input type="radio" name="q5" value="a"> a) Não há prazo definido, pode reter indefinidamente</label></li>
-                    <li><label><input type="radio" name="q5" value="b"> b) 5 anos</label></li>
-                    <li><label><input type="radio" name="q5" value="c"> c) 10 anos</label></li>
-                    <li><label><input type="radio" name="q5" value="d"> d) O tempo necessário para cumprir a finalidade, respeitando os prazos legais</label></li>
-                    <li><label><input type="radio" name="q5" value="e"> e) 1 ano após o término do contrato</label></li>
-                </ul>
-            </div>
-            
-            <!-- Pergunta 6 -->
-            <div class="question" id="question-6">
-                <h2>6. O que são dados pessoais sensíveis segundo a LGPD?</h2>
-                <div class="feedback-message" id="feedback-6"></div>
-                <ul class="options">
-                    <li><label><input type="radio" name="q6" value="a"> a) Qualquer dado pessoal</label></li>
-                    <li><label><input type="radio" name="q6" value="b"> b) Dados sobre origem racial, convicções religiosas, opinião política, etc.</label></li>
-                    <li><label><input type="radio" name="q6" value="c"> c) Apenas dados financeiros</label></li>
-                    <li><label><input type="radio" name="q6" value="d"> d) Dados de menores de idade</label></li>
-                    <li><label><input type="radio" name="q6" value="e"> e) Dados de funcionários públicos</label></li>
-                </ul>
-            </div>
-            
-            <!-- Pergunta 7 -->
-            <div class="question" id="question-7">
-                <h2>7. Qual é a multa máxima que pode ser aplicada por violação da LGPD?</h2>
-                <div class="feedback-message" id="feedback-7"></div>
-                <ul class="options">
-                    <li><label><input type="radio" name="q7" value="a"> a) R$ 50 milhões por infração</label></li>
-                    <li><label><input type="radio" name="q7" value="b"> b) R$ 100 milhões por infração</label></li>
-                    <li><label><input type="radio" name="q7" value="c"> c) R$ 500 milhões por infração</label></li>
-                    <li><label><input type="radio" name="q7" value="d"> d) R$ 1 bilhão por infração</label></li>
-                    <li><label><input type="radio" name="q7" value="e"> e) R$ 10 milhões por infração</label></li>
-                </ul>
-            </div>
-            
-            <!-- Pergunta 8 -->
-            <div class="question" id="question-8">
-                <h2>8. Qual direito NÃO está previsto na LGPD para o titular dos dados?</h2>
-                <div class="feedback-message" id="feedback-8"></div>
-                <ul class="options">
-                    <li><label><input type="radio" name="q8" value="a"> a) Confirmação da existência de tratamento</label></li>
-                    <li><label><input type="radio" name="q8" value="b"> b) Acesso aos dados</label></li>
-                    <li><label><input type="radio" name="q8" value="c"> c) Correção de dados incompletos</label></li>
-                    <li><label><input type="radio" name="q8" value="d"> d) Anonimização dos dados</label></li>
-                    <li><label><input type="radio" name="q8" value="e"> e) Direito de receber indenização por qualquer motivo</label></li>
-                </ul>
-            </div>
-            
-            <!-- Pergunta 9 -->
-            <div class="question" id="question-9">
-                <h2>9. O que é o DPO (Data Protection Officer) na LGPD?</h2>
-                <div class="feedback-message" id="feedback-9"></div>
-                <ul class="options">
-                    <li><label><input type="radio" name="q9" value="a"> a) Um software de proteção de dados</label></li>
-                    <li><label><input type="radio" name="q9" value="b"> b) O Encarregado pelo Tratamento de Dados Pessoais</label></li>
-                    <li><label><input type="radio" name="q9" value="c"> c) Um tipo de certificação de segurança</label></li>
-                    <li><label><input type="radio" name="q9" value="d"> d) Um protocolo de comunicação</label></li>
-                    <li><label><input type="radio" name="q9" value="e"> e) Um órgão governamental</label></li>
-                </ul>
-            </div>
-            
-            <!-- Pergunta 10 -->
-            <div class="question" id="question-10">
-                <h2>10. Quando a LGPD entrou em vigor no Brasil?</h2>
-                <div class="feedback-message" id="feedback-10"></div>
-                <ul class="options">
-                    <li><label><input type="radio" name="q10" value="a"> a) 14 de agosto de 2018</label></li>
-                    <li><label><input type="radio" name="q10" value="b"> b) 18 de setembro de 2020</label></li>
-                    <li><label><input type="radio" name="q10" value="c"> c) 1º de janeiro de 2021</label></li>
-                    <li><label><input type="radio" name="q10" value="d"> d) 15 de agosto de 2020</label></li>
-                    <li><label><input type="radio" name="q10" value="e"> e) 25 de maio de 2018</label></li>
-                </ul>
-            </div>
-            
-            <div class="navigation">
-                <p style="text-align: center; color: #6c757d; font-style: italic; margin: 20px 0;">
-                    Selecione uma alternativa para continuar automaticamente...
-                </p>
-            </div>
+            <button class="btn" onclick="adicionarAnotacao()">➕ Adicionar Anotação</button>
         </div>
-        
-        <div class="results" id="results">
-            <h2>🎉 Resultado do Quiz</h2>
-            <div class="score">
-                Sua pontuação: <span class="score-value" id="score-value">0</span>/10
-            </div>
-            <div class="feedback" id="feedback"></div>
-            <p>Obrigado por testar seus conhecimentos sobre LGPD!</p>
-            <button class="btn" onclick="restartQuiz()">Fazer Novamente</button>
+
+        <div class="search-box">
+            <input type="text" id="searchInput" placeholder="🔍 Buscar nas anotações..." onkeyup="filtrarAnotacoes()">
+        </div>
+
+        <div class="stats" id="stats">
+            Total de anotações: 0
+        </div>
+
+        <div class="notes-container" id="notesContainer">
+            <!-- As anotações serão inseridas aqui -->
         </div>
     </div>
 
-    <script type="text/javascript">
-        // Respostas corretas
-        const correctAnswers = {
-            q1: 'b',
-            q2: 'a',
-            q3: 'c',
-            q4: 'e',
-            q5: 'd',
-            q6: 'b',
-            q7: 'a',
-            q8: 'e',
-            q9: 'b',
-            q10: 'b'
+    <script>
+        // Array para armazenar as anotações
+        let anotacoes = [];
+
+        // Função para adicionar uma nova anotação
+        function adicionarAnotacao() {
+            const materia = document.getElementById('materia').value.trim();
+            const assunto = document.getElementById('assunto').value.trim();
+            const texto = document.getElementById('texto').value.trim();
+
+            if (!materia || !assunto || !texto) {
+                alert('Por favor, preencha todos os campos!');
+                return;
+            }
+
+            const anotacao = {
+                id: Date.now(),
+                materia: materia,
+                assunto: assunto,
+                texto: texto,
+                data: new Date().toLocaleDateString('pt-BR')
+            };
+
+            anotacoes.push(anotacao);
+            salvarAnotacoes();
+            limparFormulario();
+            exibirAnotacoes();
+            atualizarEstatisticas();
+        }
+
+        // Função para limpar o formulário
+        function limparFormulario() {
+            document.getElementById('materia').value = '';
+            document.getElementById('assunto').value = '';
+            document.getElementById('texto').value = '';
+        }
+
+        // Função para exibir todas as anotações
+        function exibirAnotacoes(filtradas = null) {
+            const container = document.getElementById('notesContainer');
+            const anotacoesParaExibir = filtradas || anotacoes;
+
+            if (anotacoesParaExibir.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <div>📝</div>
+                        <h3>Nenhuma anotação encontrada</h3>
+                        <p>Adicione sua primeira anotação para começar!</p>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = anotacoesParaExibir.map(anotacao => `
+                <div class="note">
+                    <div class="note-header">
+                        <div class="note-meta">
+                            <div class="note-materia">${anotacao.materia}</div>
+                            <div class="note-assunto">${anotacao.assunto}</div>
+                            <div class="note-date">${anotacao.data}</div>
+                        </div>
+                        <button class="delete-btn" onclick="deletarAnotacao(${anotacao.id})">🗑️</button>
+                    </div>
+                    <div class="note-text">${anotacao.texto}</div>
+                </div>
+            `).join('');
+        }
+
+        // Função para deletar uma anotação
+        function deletarAnotacao(id) {
+            if (confirm('Tem certeza que deseja deletar esta anotação?')) {
+                anotacoes = anotacoes.filter(anotacao => anotacao.id !== id);
+                salvarAnotacoes();
+                exibirAnotacoes();
+                atualizarEstatisticas();
+            }
+        }
+
+        // Função para filtrar anotações
+        function filtrarAnotacoes() {
+            const termo = document.getElementById('searchInput').value.toLowerCase();
+            const filtradas = anotacoes.filter(anotacao => 
+                anotacao.materia.toLowerCase().includes(termo) ||
+                anotacao.assunto.toLowerCase().includes(termo) ||
+                anotacao.texto.toLowerCase().includes(termo)
+            );
+            exibirAnotacoes(filtradas);
+        }
+
+        // Função para atualizar estatísticas
+        function atualizarEstatisticas() {
+            const stats = document.getElementById('stats');
+            stats.textContent = `Total de anotações: ${anotacoes.length}`;
+        }
+
+        // Função para salvar anotações no localStorage
+        function salvarAnotacoes() {
+            localStorage.setItem('anotacoesConcursos', JSON.stringify(anotacoes));
+        }
+
+        // Função para carregar anotações do localStorage
+        function carregarAnotacoes() {
+            const salvas = localStorage.getItem('anotacoesConcursos');
+            if (salvas) {
+                anotacoes = JSON.parse(salvas);
+            }
+        }
+
+        // Função para adicionar a primeira anotação (Arquivologia)
+        function adicionarPrimeiraAnotacao() {
+            if (anotacoes.length === 0) {
+                const primeiraAnotacao = {
+                    id: Date.now(),
+                    materia: "Arquivologia",
+                    assunto: "Técnicas de arquivamento",
+                    texto: "01 - A Ata deve ser escrita em um único parágrafo, assinada ao final pelas pessoas que a presidiram e pelo seu redator.",
+                    data: new Date().toLocaleDateString('pt-BR')
+                };
+                anotacoes.push(primeiraAnotacao);
+                salvarAnotacoes();
+            }
+        }
+
+        // Inicialização da aplicação
+        window.onload = function() {
+            carregarAnotacoes();
+            adicionarPrimeiraAnotacao();
+            exibirAnotacoes();
+            atualizarEstatisticas();
         };
-        
-        let currentQuestion = 1;
-        const totalQuestions = 10;
-        let userAnswers = {};
-        
-        // Atualizar contadores
-        function updateCounters() {
-            document.getElementById('current-question').textContent = currentQuestion;
-            document.getElementById('total-questions').textContent = totalQuestions;
-            
-            // Atualizar barra de progresso
-            const progress = (currentQuestion / totalQuestions) * 100;
-            document.getElementById('progress-fill').style.width = progress + '%';
-        }
-        
-        // Mostrar pergunta específica
-        function showQuestion(questionNumber) {
-            // Esconder todas as perguntas
-            for (let i = 1; i <= totalQuestions; i++) {
-                document.getElementById('question-' + i).classList.remove('active');
-                
-                // Limpar feedback e classes visuais
-                const feedbackDiv = document.getElementById('feedback-' + i);
-                if (feedbackDiv) {
-                    feedbackDiv.style.display = 'none';
-                    feedbackDiv.textContent = '';
-                }
-                
-                const labels = document.querySelectorAll('#question-' + i + ' label');
-                labels.forEach(label => {
-                    label.classList.remove('selected', 'correct', 'incorrect');
-                });
+
+        // Permitir adicionar anotação com Enter
+        document.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter' && e.ctrlKey) {
+                adicionarAnotacao();
             }
-            
-            // Mostrar pergunta atual
-            document.getElementById('question-' + questionNumber).classList.add('active');
-            
-            updateCounters();
-        }
-        
-        // Próxima pergunta
-        function nextQuestion() {
-            if (currentQuestion < totalQuestions) {
-                currentQuestion++;
-                showQuestion(currentQuestion);
-            }
-        }
-        
-        // Pergunta anterior
-        function previousQuestion() {
-            if (currentQuestion > 1) {
-                currentQuestion--;
-                showQuestion(currentQuestion);
-            }
-        }
-        
-        // Salvar resposta
-        function saveAnswer(questionNumber, answer) {
-            userAnswers['q' + questionNumber] = answer;
-            
-            // Marcar visualmente a resposta selecionada
-            const questionDiv = document.getElementById('question-' + questionNumber);
-            const labels = questionDiv.querySelectorAll('label');
-            const selectedLabel = questionDiv.querySelector('input[value="' + answer + '"]').parentNode;
-            
-            // Remover classes anteriores
-            labels.forEach(label => {
-                label.classList.remove('selected', 'correct', 'incorrect');
-            });
-            
-            // Adicionar classe de selecionado
-            selectedLabel.classList.add('selected');
-            
-            // Mostrar feedback imediato
-            const feedbackDiv = document.getElementById('feedback-' + questionNumber);
-            const isCorrect = (answer === correctAnswers['q' + questionNumber]);
-            
-            if (isCorrect) {
-                feedbackDiv.textContent = '✅ Correto!';
-                feedbackDiv.className = 'feedback-message feedback-correct';
-                selectedLabel.classList.add('correct');
-            } else {
-                feedbackDiv.textContent = '❌ Incorreto. A resposta correta é: ' + getCorrectAnswerText(questionNumber);
-                feedbackDiv.className = 'feedback-message feedback-incorrect';
-                selectedLabel.classList.add('incorrect');
-                
-                // Mostrar a resposta correta
-                const correctLabel = questionDiv.querySelector('input[value="' + correctAnswers['q' + questionNumber] + '"]').parentNode;
-                correctLabel.classList.add('correct');
-            }
-            
-            feedbackDiv.style.display = 'block';
-            
-            // Avançar automaticamente para a próxima pergunta após 2 segundos
-            setTimeout(function() {
-                if (questionNumber < totalQuestions) {
-                    currentQuestion = questionNumber + 1;
-                    showQuestion(currentQuestion);
-                } else {
-                    // Se for a última pergunta, finalizar automaticamente
-                    finishQuiz();
-                }
-            }, 2000);
-        }
-        
-        // Função para obter o texto da resposta correta
-        function getCorrectAnswerText(questionNumber) {
-            const correctValue = correctAnswers['q' + questionNumber];
-            const questionDiv = document.getElementById('question-' + questionNumber);
-            const correctLabel = questionDiv.querySelector('input[value="' + correctValue + '"]').parentNode;
-            return correctLabel.textContent.trim();
-        }
-        
-        // Finalizar quiz
-        function finishQuiz() {
-            let score = 0;
-            
-            // Calcular pontuação
-            for (let question in correctAnswers) {
-                if (userAnswers[question] === correctAnswers[question]) {
-                    score++;
-                }
-            }
-            
-            // Mostrar resultados
-            document.querySelector('.quiz-container').style.display = 'none';
-            document.getElementById('results').style.display = 'block';
-            document.getElementById('score-value').textContent = score;
-            
-            // Feedback baseado na pontuação
-            let feedback = '';
-            let feedbackClass = '';
-            
-            if (score >= 9) {
-                feedback = 'Excelente! Você tem um conhecimento sólido sobre LGPD!';
-                feedbackClass = 'excellent';
-            } else if (score >= 7) {
-                feedback = 'Muito bom! Você conhece bem os principais aspectos da LGPD.';
-                feedbackClass = 'good';
-            } else if (score >= 5) {
-                feedback = 'Bom! Você tem conhecimentos básicos sobre LGPD, mas pode melhorar.';
-                feedbackClass = 'average';
-            } else {
-                feedback = 'Continue estudando! A LGPD é fundamental para a proteção de dados.';
-                feedbackClass = 'poor';
-            }
-            
-            document.getElementById('feedback').textContent = feedback;
-            document.getElementById('feedback').className = 'feedback ' + feedbackClass;
-        }
-        
-        // Reiniciar quiz
-        function restartQuiz() {
-            currentQuestion = 1;
-            userAnswers = {};
-            
-            // Limpar todas as respostas
-            for (let i = 1; i <= totalQuestions; i++) {
-                const radios = document.querySelectorAll('input[name="q' + i + '"]');
-                radios.forEach(radio => radio.checked = false);
-            }
-            
-            // Mostrar primeira pergunta
-            document.querySelector('.quiz-container').style.display = 'block';
-            document.getElementById('results').style.display = 'none';
-            showQuestion(1);
-        }
-        
-        // Adicionar event listeners para salvar respostas
-        document.addEventListener('DOMContentLoaded', function() {
-            for (let i = 1; i <= totalQuestions; i++) {
-                const radios = document.querySelectorAll('input[name="q' + i + '"]');
-                radios.forEach(radio => {
-                    radio.addEventListener('change', function() {
-                        saveAnswer(i, this.value);
-                    });
-                });
-            }
-            
-            updateCounters();
         });
     </script>
 </body>
