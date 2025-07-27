@@ -244,6 +244,7 @@
             </div>
             
             <button class="btn" onclick="adicionarAnotacao()">Adicionar Anotação</button>
+            <button class="btn" onclick="fazerBackup()" style="margin-left: 10px; background-color: #28a745;">Fazer Backup</button>
         </div>
 
         <div class="search-box">
@@ -259,6 +260,7 @@
         </div>
     </div>
 
+    <script type="text/javascript" src="db.js"></script>
     <script type="text/javascript">
         // Array para armazenar as anotações
         var anotacoes = [];
@@ -287,11 +289,14 @@
                 data: new Date().toLocaleDateString('pt-BR')
             };
 
-            anotacoes.push(anotacao);
-            salvarAnotacoes();
-            limparFormulario();
-            exibirAnotacoes();
-            atualizarEstatisticas();
+            // Salvar no banco de dados
+            if (SimpleDB.add(anotacao)) {
+                alert('Anotação salva com sucesso!\n\nArquivo anotacoes_db.json foi baixado.\nSubstitua o arquivo no seu repositório e faça commit.');
+                limparFormulario();
+                carregarAnotacoes();
+            } else {
+                alert('Erro ao salvar anotação. Tente novamente.');
+            }
         }
 
         // Função para limpar o formulário
@@ -370,106 +375,52 @@
         // Função para deletar uma anotação
         function deletarAnotacao(id) {
             if (confirm('Tem certeza que deseja deletar esta anotação?')) {
-                var novasAnotacoes = [];
-                for (var i = 0; i < anotacoes.length; i++) {
-                    if (anotacoes[i].id != id) {
-                        novasAnotacoes.push(anotacoes[i]);
-                    }
+                if (SimpleDB.delete(id)) {
+                    alert('Anotação deletada com sucesso!\n\nArquivo anotacoes_db.json foi atualizado.\nSubstitua o arquivo no seu repositório e faça commit.');
+                    carregarAnotacoes();
+                } else {
+                    alert('Erro ao deletar anotação. Tente novamente.');
                 }
-                anotacoes = novasAnotacoes;
-                salvarAnotacoes();
-                exibirAnotacoes();
-                atualizarEstatisticas();
             }
         }
 
         // Função para filtrar anotações
         function filtrarAnotacoes() {
-            var termo = document.getElementById('searchInput').value.toLowerCase();
-            var filtradas = [];
-            
-            for (var i = 0; i < anotacoes.length; i++) {
-                var anotacao = anotacoes[i];
-                if (anotacao.materia.toLowerCase().indexOf(termo) != -1 ||
-                    anotacao.assunto.toLowerCase().indexOf(termo) != -1 ||
-                    anotacao.texto.toLowerCase().indexOf(termo) != -1) {
-                    filtradas.push(anotacao);
-                }
+            var termo = document.getElementById('searchInput').value;
+            if (termo == '') {
+                exibirAnotacoes();
+            } else {
+                var filtradas = SimpleDB.search(termo);
+                exibirAnotacoes(filtradas);
             }
-            exibirAnotacoes(filtradas);
         }
 
         // Função para atualizar estatísticas
         function atualizarEstatisticas() {
             var stats = document.getElementById('stats');
-            stats.innerHTML = 'Total de anotações: ' + anotacoes.length;
+            stats.innerHTML = 'Total de anotações: ' + SimpleDB.count();
         }
 
-        // Função para salvar anotações no arquivo JSON
-        function salvarAnotacoes() {
-            try {
-                // Salvar no localStorage como backup
-                localStorage.setItem('anotacoesConcursos', JSON.stringify(anotacoes));
-                
-                // Criar e baixar arquivo JSON para sincronização
-                var dataStr = JSON.stringify(anotacoes, null, 2);
-                var dataBlob = new Blob([dataStr], {type: 'application/json'});
-                
-                // Criar link de download
-                var link = document.createElement('a');
-                link.href = URL.createObjectURL(dataBlob);
-                link.download = 'anotacoes.json';
-                link.style.display = 'none';
-                document.body.appendChild(link);
-                link.click();
-                document.body.removeChild(link);
-                
-                // Mostrar instruções para o usuário
-                alert('Arquivo anotacoes.json foi baixado!\n\nPara sincronizar:\n1. Substitua o arquivo anotacoes.json no seu repositório\n2. Faça commit e push no GitHub\n3. Em outros dispositivos, faça pull para atualizar');
-                
-            } catch (e) {
-                console.log('Erro ao salvar anotações');
-                alert('Erro ao salvar. Tente novamente.');
+        // Função para fazer backup do banco
+        function fazerBackup() {
+            if (SimpleDB.backup()) {
+                console.log('Backup criado com sucesso');
+            } else {
+                alert('Erro ao criar backup');
             }
         }
 
-        // Função para carregar anotações do arquivo JSON
+        // Função para carregar anotações do banco de dados
         function carregarAnotacoes() {
             try {
-                // Primeiro tenta carregar do localStorage como backup
-                var salvas = localStorage.getItem('anotacoesConcursos');
-                if (salvas) {
-                    anotacoes = JSON.parse(salvas);
-                }
-                
-                // Depois tenta carregar do arquivo JSON se existir
-                var xhr = new XMLHttpRequest();
-                xhr.open('GET', 'anotacoes.json', true);
-                xhr.onreadystatechange = function() {
-                    if (xhr.readyState == 4) {
-                        if (xhr.status == 200) {
-                            try {
-                                var dadosArquivo = JSON.parse(xhr.responseText);
-                                if (dadosArquivo && dadosArquivo.length > 0) {
-                                    anotacoes = dadosArquivo;
-                                    // Atualizar localStorage com dados do arquivo
-                                    localStorage.setItem('anotacoesConcursos', JSON.stringify(anotacoes));
-                                    exibirAnotacoes();
-                                    atualizarEstatisticas();
-                                }
-                            } catch (e) {
-                                console.log('Erro ao parsear arquivo JSON');
-                            }
-                        } else {
-                            console.log('Arquivo anotacoes.json não encontrado, usando localStorage');
-                        }
-                    }
-                };
-                xhr.send();
-                
+                anotacoes = SimpleDB.getAll();
+                exibirAnotacoes();
+                atualizarEstatisticas();
             } catch (e) {
-                console.log('Erro ao carregar anotações');
+                console.log('Erro ao carregar anotações:', e);
                 anotacoes = [];
+                exibirAnotacoes();
+                atualizarEstatisticas();
             }
         }
 
