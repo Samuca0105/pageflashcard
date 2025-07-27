@@ -1,55 +1,49 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Anotações para Concursos</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
+    <style type="text/css">
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            padding: 20px;
+            font-family: Arial, Helvetica, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 10px;
             color: #333;
         }
 
         .container {
+            width: 95%;
             max-width: 800px;
             margin: 0 auto;
-            background: white;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-            overflow: hidden;
+            background-color: white;
+            border: 2px solid #ccc;
+            border-radius: 10px;
         }
 
         .header {
-            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            background-color: #4a90e2;
             color: white;
-            padding: 30px;
+            padding: 20px;
             text-align: center;
+            border-radius: 8px 8px 0 0;
         }
 
         .header h1 {
-            font-size: 2.5em;
-            margin-bottom: 10px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            font-size: 24px;
+            margin: 0 0 10px 0;
         }
 
         .header p {
-            font-size: 1.2em;
-            opacity: 0.9;
+            font-size: 16px;
+            margin: 0;
         }
 
         .controls {
-            padding: 20px;
-            background: #f8f9fa;
-            border-bottom: 1px solid #e9ecef;
+            padding: 15px;
+            background-color: #f8f8f8;
+            border-bottom: 1px solid #ddd;
         }
 
         .form-group {
@@ -60,177 +54,149 @@
             display: block;
             margin-bottom: 5px;
             font-weight: bold;
-            color: #495057;
+            color: #333;
         }
 
         .form-group input, .form-group textarea {
             width: 100%;
-            padding: 12px;
-            border: 2px solid #e9ecef;
-            border-radius: 8px;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
             font-size: 16px;
-            transition: border-color 0.3s ease;
-        }
-
-        .form-group input:focus, .form-group textarea:focus {
-            outline: none;
-            border-color: #4facfe;
-            box-shadow: 0 0 0 3px rgba(79, 172, 254, 0.1);
+            font-family: Arial, sans-serif;
         }
 
         .btn {
-            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            background-color: #4a90e2;
             color: white;
             border: none;
-            padding: 12px 25px;
-            border-radius: 8px;
+            padding: 10px 20px;
+            border-radius: 4px;
             font-size: 16px;
             font-weight: bold;
             cursor: pointer;
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
         }
 
         .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(79, 172, 254, 0.4);
+            background-color: #357abd;
         }
 
-        .btn:active {
-            transform: translateY(0);
+        .search-box {
+            padding: 15px;
+            background-color: #f8f8f8;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+
+        .stats {
+            background-color: #e8e8e8;
+            padding: 10px;
+            text-align: center;
+            font-weight: bold;
+            color: #333;
+            border-bottom: 1px solid #ddd;
         }
 
         .notes-container {
-            padding: 20px;
-            max-height: 60vh;
+            padding: 15px;
+            max-height: 400px;
             overflow-y: auto;
         }
 
         .note {
-            background: #f8f9fa;
-            border-left: 4px solid #4facfe;
-            margin-bottom: 20px;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            transition: transform 0.2s ease;
-        }
-
-        .note:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+            background-color: #f8f8f8;
+            border-left: 4px solid #4a90e2;
+            margin-bottom: 15px;
+            padding: 15px;
+            border-radius: 4px;
         }
 
         .note-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
-        }
-
-        .note-meta {
-            flex: 1;
+            margin-bottom: 10px;
         }
 
         .note-materia {
-            font-size: 1.1em;
+            font-size: 18px;
             font-weight: bold;
-            color: #4facfe;
+            color: #4a90e2;
             margin-bottom: 5px;
         }
 
         .note-assunto {
-            font-size: 1em;
-            color: #6c757d;
-            font-weight: 500;
+            font-size: 16px;
+            color: #666;
+            font-weight: bold;
+            margin-bottom: 5px;
         }
 
         .note-date {
-            font-size: 0.9em;
-            color: #adb5bd;
+            font-size: 14px;
+            color: #999;
         }
 
         .note-text {
-            line-height: 1.6;
-            color: #495057;
-            font-size: 1em;
+            line-height: 1.5;
+            color: #333;
+            font-size: 16px;
         }
 
         .delete-btn {
-            background: #dc3545;
+            background-color: #dc3545;
             color: white;
             border: none;
-            padding: 8px 12px;
-            border-radius: 6px;
+            padding: 5px 10px;
+            border-radius: 3px;
             font-size: 14px;
             cursor: pointer;
-            transition: background 0.2s ease;
+            float: right;
         }
 
         .delete-btn:hover {
-            background: #c82333;
+            background-color: #c82333;
         }
 
         .empty-state {
             text-align: center;
             padding: 40px 20px;
-            color: #6c757d;
+            color: #666;
         }
 
-        .empty-state i {
-            font-size: 3em;
-            margin-bottom: 20px;
-            opacity: 0.5;
-        }
-
-        .search-box {
+        .empty-state div {
+            font-size: 48px;
             margin-bottom: 20px;
         }
 
-        .search-box input {
-            width: 100%;
-            padding: 12px;
-            border: 2px solid #e9ecef;
-            border-radius: 8px;
-            font-size: 16px;
+        .clear {
+            clear: both;
         }
 
-        .stats {
-            background: #e9ecef;
-            padding: 15px;
-            border-radius: 8px;
-            margin-bottom: 20px;
-            text-align: center;
-            font-weight: bold;
-            color: #495057;
-        }
-
-        @media (max-width: 768px) {
+        /* Estilos para iPad Mini */
+        @media screen and (max-width: 768px) {
             body {
-                padding: 10px;
+                padding: 5px;
             }
             
             .header h1 {
-                font-size: 2em;
+                font-size: 20px;
             }
             
-            .note-header {
-                flex-direction: column;
-                align-items: flex-start;
+            .note-materia {
+                font-size: 16px;
             }
             
-            .delete-btn {
-                margin-top: 10px;
-            }
-        }
-
-        /* Estilos específicos para iPad Mini */
-        @media (min-width: 768px) and (max-width: 1024px) {
-            .container {
-                max-width: 90%;
+            .note-assunto {
+                font-size: 14px;
             }
             
-            .notes-container {
-                max-height: 50vh;
+            .note-text {
+                font-size: 14px;
             }
         }
     </style>
@@ -238,7 +204,7 @@
 <body>
     <div class="container">
         <div class="header">
-            <h1>📚 Anotações para Concursos</h1>
+            <h1>Anotações para Concursos</h1>
             <p>Organize seus estudos de forma eficiente</p>
         </div>
 
@@ -258,11 +224,11 @@
                 <textarea id="texto" rows="4" placeholder="Digite sua anotação aqui..."></textarea>
             </div>
             
-            <button class="btn" onclick="adicionarAnotacao()">➕ Adicionar Anotação</button>
+            <button class="btn" onclick="adicionarAnotacao()">Adicionar Anotação</button>
         </div>
 
         <div class="search-box">
-            <input type="text" id="searchInput" placeholder="🔍 Buscar nas anotações..." onkeyup="filtrarAnotacoes()">
+            <input type="text" id="searchInput" placeholder="Buscar nas anotações..." onkeyup="filtrarAnotacoes()">
         </div>
 
         <div class="stats" id="stats">
@@ -274,23 +240,28 @@
         </div>
     </div>
 
-    <script>
+    <script type="text/javascript">
         // Array para armazenar as anotações
-        let anotacoes = [];
+        var anotacoes = [];
 
         // Função para adicionar uma nova anotação
         function adicionarAnotacao() {
-            const materia = document.getElementById('materia').value.trim();
-            const assunto = document.getElementById('assunto').value.trim();
-            const texto = document.getElementById('texto').value.trim();
+            var materia = document.getElementById('materia').value;
+            var assunto = document.getElementById('assunto').value;
+            var texto = document.getElementById('texto').value;
+            
+            // Remover espaços em branco
+            materia = materia.replace(/^\s+|\s+$/g, '');
+            assunto = assunto.replace(/^\s+|\s+$/g, '');
+            texto = texto.replace(/^\s+|\s+$/g, '');
 
-            if (!materia || !assunto || !texto) {
+            if (materia == '' || assunto == '' || texto == '') {
                 alert('Por favor, preencha todos os campos!');
                 return;
             }
 
-            const anotacao = {
-                id: Date.now(),
+            var anotacao = {
+                id: new Date().getTime(),
                 materia: materia,
                 assunto: assunto,
                 texto: texto,
@@ -312,40 +283,44 @@
         }
 
         // Função para exibir todas as anotações
-        function exibirAnotacoes(filtradas = null) {
-            const container = document.getElementById('notesContainer');
-            const anotacoesParaExibir = filtradas || anotacoes;
+        function exibirAnotacoes(filtradas) {
+            var container = document.getElementById('notesContainer');
+            var anotacoesParaExibir = filtradas || anotacoes;
 
-            if (anotacoesParaExibir.length === 0) {
-                container.innerHTML = `
-                    <div class="empty-state">
-                        <div>📝</div>
-                        <h3>Nenhuma anotação encontrada</h3>
-                        <p>Adicione sua primeira anotação para começar!</p>
-                    </div>
-                `;
+            if (anotacoesParaExibir.length == 0) {
+                container.innerHTML = '<div class="empty-state"><div>📝</div><h3>Nenhuma anotação encontrada</h3><p>Adicione sua primeira anotação para começar!</p></div>';
                 return;
             }
 
-            container.innerHTML = anotacoesParaExibir.map(anotacao => `
-                <div class="note">
-                    <div class="note-header">
-                        <div class="note-meta">
-                            <div class="note-materia">${anotacao.materia}</div>
-                            <div class="note-assunto">${anotacao.assunto}</div>
-                            <div class="note-date">${anotacao.data}</div>
-                        </div>
-                        <button class="delete-btn" onclick="deletarAnotacao(${anotacao.id})">🗑️</button>
-                    </div>
-                    <div class="note-text">${anotacao.texto}</div>
-                </div>
-            `).join('');
+            var html = '';
+            for (var i = 0; i < anotacoesParaExibir.length; i++) {
+                var anotacao = anotacoesParaExibir[i];
+                html += '<div class="note">';
+                html += '<div class="note-header">';
+                html += '<div class="note-meta">';
+                html += '<div class="note-materia">' + anotacao.materia + '</div>';
+                html += '<div class="note-assunto">' + anotacao.assunto + '</div>';
+                html += '<div class="note-date">' + anotacao.data + '</div>';
+                html += '</div>';
+                html += '<button class="delete-btn" onclick="deletarAnotacao(' + anotacao.id + ')">X</button>';
+                html += '<div class="clear"></div>';
+                html += '</div>';
+                html += '<div class="note-text">' + anotacao.texto + '</div>';
+                html += '</div>';
+            }
+            container.innerHTML = html;
         }
 
         // Função para deletar uma anotação
         function deletarAnotacao(id) {
             if (confirm('Tem certeza que deseja deletar esta anotação?')) {
-                anotacoes = anotacoes.filter(anotacao => anotacao.id !== id);
+                var novasAnotacoes = [];
+                for (var i = 0; i < anotacoes.length; i++) {
+                    if (anotacoes[i].id != id) {
+                        novasAnotacoes.push(anotacoes[i]);
+                    }
+                }
+                anotacoes = novasAnotacoes;
                 salvarAnotacoes();
                 exibirAnotacoes();
                 atualizarEstatisticas();
@@ -354,39 +329,54 @@
 
         // Função para filtrar anotações
         function filtrarAnotacoes() {
-            const termo = document.getElementById('searchInput').value.toLowerCase();
-            const filtradas = anotacoes.filter(anotacao => 
-                anotacao.materia.toLowerCase().includes(termo) ||
-                anotacao.assunto.toLowerCase().includes(termo) ||
-                anotacao.texto.toLowerCase().includes(termo)
-            );
+            var termo = document.getElementById('searchInput').value.toLowerCase();
+            var filtradas = [];
+            
+            for (var i = 0; i < anotacoes.length; i++) {
+                var anotacao = anotacoes[i];
+                if (anotacao.materia.toLowerCase().indexOf(termo) != -1 ||
+                    anotacao.assunto.toLowerCase().indexOf(termo) != -1 ||
+                    anotacao.texto.toLowerCase().indexOf(termo) != -1) {
+                    filtradas.push(anotacao);
+                }
+            }
             exibirAnotacoes(filtradas);
         }
 
         // Função para atualizar estatísticas
         function atualizarEstatisticas() {
-            const stats = document.getElementById('stats');
-            stats.textContent = `Total de anotações: ${anotacoes.length}`;
+            var stats = document.getElementById('stats');
+            stats.innerHTML = 'Total de anotações: ' + anotacoes.length;
         }
 
         // Função para salvar anotações no localStorage
         function salvarAnotacoes() {
-            localStorage.setItem('anotacoesConcursos', JSON.stringify(anotacoes));
+            try {
+                localStorage.setItem('anotacoesConcursos', JSON.stringify(anotacoes));
+            } catch (e) {
+                // Fallback para navegadores que não suportam localStorage
+                console.log('localStorage não suportado');
+            }
         }
 
         // Função para carregar anotações do localStorage
         function carregarAnotacoes() {
-            const salvas = localStorage.getItem('anotacoesConcursos');
-            if (salvas) {
-                anotacoes = JSON.parse(salvas);
+            try {
+                var salvas = localStorage.getItem('anotacoesConcursos');
+                if (salvas) {
+                    anotacoes = JSON.parse(salvas);
+                }
+            } catch (e) {
+                console.log('Erro ao carregar anotações');
+                anotacoes = [];
             }
         }
 
         // Função para adicionar a primeira anotação (Arquivologia)
         function adicionarPrimeiraAnotacao() {
-            if (anotacoes.length === 0) {
-                const primeiraAnotacao = {
-                    id: Date.now(),
+            if (anotacoes.length == 0) {
+                var primeiraAnotacao = {
+                    id: new Date().getTime(),
                     materia: "Arquivologia",
                     assunto: "Técnicas de arquivamento",
                     texto: "01 - A Ata deve ser escrita em um único parágrafo, assinada ao final pelas pessoas que a presidiram e pelo seu redator.",
@@ -404,13 +394,6 @@
             exibirAnotacoes();
             atualizarEstatisticas();
         };
-
-        // Permitir adicionar anotação com Enter
-        document.addEventListener('keypress', function(e) {
-            if (e.key === 'Enter' && e.ctrlKey) {
-                adicionarAnotacao();
-            }
-        });
     </script>
 </body>
 </html> 
