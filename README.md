@@ -12,19 +12,24 @@ Aplicação web para organizar anotações de estudos para concursos, com sincro
 ### Adicionando Anotações
 1. Preencha os campos: Matéria, Assunto e Anotação
 2. Clique em "Adicionar Anotação"
-3. O arquivo `anotacoes_db.json` será baixado automaticamente
+3. As anotações são salvas localmente no navegador
 
 ### Sincronizando Entre Dispositivos
 
-#### Quando você adiciona/deleta anotações:
-1. O arquivo `anotacoes_db.json` será baixado automaticamente
-2. Substitua o arquivo `anotacoes_db.json` no seu repositório pelo arquivo baixado
-3. Faça commit e push no GitHub:
+#### Para enviar suas anotações para o GitHub:
+1. Clique em "Exportar para GitHub"
+2. O arquivo `anotacoes_db.json` será baixado
+3. Substitua o arquivo no seu repositório
+4. Faça commit e push no GitHub:
    ```bash
    git add anotacoes_db.json
    git commit -m "Atualizar anotações"
    git push origin main
    ```
+
+#### Para receber anotações do GitHub:
+1. Clique em "Importar do GitHub"
+2. As anotações serão carregadas automaticamente
 
 ### Backup e Segurança
 - Use o botão "Fazer Backup" para criar cópias de segurança
@@ -53,14 +58,15 @@ Aplicação web para organizar anotações de estudos para concursos, com sincro
 - ✅ Deletar anotações
 - ✅ Agrupamento automático por matéria
 - ✅ Interface colapsável
-- ✅ Sincronização via GitHub
+- ✅ Salvamento local (sem download automático)
+- ✅ Sincronização manual com GitHub
 - ✅ Compatível com Safari antigo (iPad Mini 1)
 
 ## 🔧 Compatibilidade
 
 - Safari (iPad Mini 1 e versões mais recentes)
 - Chrome, Firefox, Edge
-- Funciona offline (localStorage como backup)
+- Funciona offline (salvamento local no navegador)
 
 ## 📝 Formato das Anotações
 
@@ -72,7 +78,8 @@ Cada anotação contém:
 
 ## 🚨 Importante
 
-- Sempre faça backup do arquivo `anotacoes_db.json` antes de fazer alterações
-- Se houver conflitos, o arquivo mais recente será usado
+- As anotações são salvas localmente no navegador
+- Use "Exportar para GitHub" quando quiser sincronizar
+- Use "Importar do GitHub" para receber atualizações
 - Use o botão "Fazer Backup" regularmente para criar cópias de segurança
-- O sistema de banco é compatível com Safari antigo (iPad Mini 1) 
+- O sistema funciona offline e é compatível com Safari antigo (iPad Mini 1) 
